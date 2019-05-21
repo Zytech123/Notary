@@ -19,7 +19,7 @@
       results = res;
       console.log(res);
     } catch (err) {
-      error = { message: err };
+      error = err;
       console.error(err);
     }
   };
@@ -50,7 +50,7 @@
 </style>
 
 <div class="container">
-  <h1>Orbs Notary</h1>
+  <h1>Ethereum Notary</h1>
   <Explanations />
   <Input
     on:change={ev => {

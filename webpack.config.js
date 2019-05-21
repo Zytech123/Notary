@@ -46,10 +46,6 @@ module.exports = {
   plugins: [
     new MiniCssExtractPlugin({
       filename: '[name].css'
-    }),
-    new webpack.EnvironmentPlugin({
-      'ORBS_NODE_ADDRESS': process.env.ORBS_NODE_ADDRESS,
-      'ORBS_VCHAIN': process.env.ORBS_VCHAIN,
     })
   ],
   devtool: prod ? false : 'source-map'

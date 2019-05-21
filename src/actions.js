@@ -1,7 +1,5 @@
 import sjcl from 'sjcl';
-import { argString, encodeHex } from 'orbs-client-sdk/dist/index.es';
-
-const contractName = 'Notary';
+import NotaryJSON from '../build/contracts/Notary.json';
 
 const binaryToHash = binary => {
   const hash = sjcl.hash.sha256.hash(binary);
@@ -9,10 +7,13 @@ const binaryToHash = binary => {
 };
 
 class Actions {
-  constructor(orbsClient, publicKey, privateKey) {
-    this.orbsClient = orbsClient;
-    this.publicKey = publicKey;
-    this.privateKey = privateKey;
+  constructor(web3, address) {
+    this.web3 = web3;
+    this.notaryContract = new web3.eth.Contract(
+      NotaryJSON.abi,
+      NotaryJSON.networks['5777'].address
+    );
+    this.userAddress = address;
   }
   _readFile(file) {
     return new Promise((resolve, reject) => {
@@ -26,21 +27,10 @@ class Actions {
   }
 
   async register(file) {
+    const [from] = await window.ethereum.enable();
     const hash = await this._readFile(file);
-    const [tx] = this.orbsClient.createTransaction(
-      this.publicKey,
-      this.privateKey,
-      contractName,
-      'register',
-      [argString(hash)]
-    );
-    const receipt = await this.orbsClient.sendTransaction(tx);
-    const txHash = encodeHex(receipt.txHash);
-    if (receipt.executionResult !== 'SUCCESS') {
-      return Promise.reject(receipt.outputArguments[0].value);
-    }
-    const timestamp = receipt.outputArguments[0].value;
-    const signer = encodeHex(receipt.outputArguments[1].value);
+    const res = await this.notaryContract.methods.register(hash).send({ from });
+    console.log(res);
     return {
       txHash,
       hash,
@@ -51,18 +41,12 @@ class Actions {
 
   async verify(file) {
     const hash = await this._readFile(file);
-    const query = this.orbsClient.createQuery(
-      this.publicKey,
-      contractName,
-      'verify',
-      [argString(hash)]
-    );
-    const receipt = await this.orbsClient.sendQuery(query);
-    const timestamp = receipt.outputArguments[0].value;
-    const signer = encodeHex(receipt.outputArguments[1].value);
+    const res = await this.notaryContract.methods.verify(hash).call();
+    const timestampHex = res[0]._hex;
+    const signer = res[1];
     return {
       hash,
-      timestamp: Number(timestamp),
+      timestamp: this.web3.utils.hexToNumber(timestampHex),
       signer
     };
   }
