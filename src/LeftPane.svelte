@@ -1,4 +1,6 @@
 <script>
+  import DropZone from './DropZone.svelte';
+  import Actions from './Actions.svelte';
   import Footer from './Footer.svelte';
 </script>
 
@@ -16,20 +18,14 @@
   }
   .explanations {
     margin-bottom: 2rem;
+    font-size: 15px;
+    line-height: 1.73;
+    letter-spacing: 0.2px;
   }
-  main {
-    background-color: #f9f9f9;
-    border: 1px dashed #d2d2d2;
-    height: 16rem;
-    width: 100%;
-  }
-  .actions {
-    margin-top: 3rem;
-    text-align: center;
-  }
+  
   @media (max-width: 640px) {
     .wrapper {
-      padding: 0;
+      padding: 0 !important;
     }
   }
   @media (max-width: 1440px) {
@@ -49,11 +45,8 @@
       Orbs Notary serves two simple purposes:<br />
       register and verify documents.
     </p>
-    <main />
-    <div class="actions">
-      <button>Register</button>
-      <button>Verify</button>
-    </div>
+    <DropZone />
+    <Actions />
   </div>
   <Footer />
 </article>

@@ -1,20 +1,22 @@
 html, body {
 	position: relative;
 	width: 100%;
-	height: 100%;
+  height: 100%;
+  
+  --color-white: white;
+  --color-black: black;
+  --color-light-grey: #f9f9f9;
+  --color-grey: #cbcbcb;
+  --color-blue: #4b587b;
+  --color-turquoise: rgba(41, 177, 204, 1);
+  --color-turquoise-opacity: rgba(41, 177, 204, 0.3);
 }
 
 body {
-	color: #333;
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
 	font-family: Montserrat, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-}
-
-a {
-	color: rgb(0,100,200);
-	text-decoration: none;
 }
 
 a:hover {
