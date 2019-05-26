@@ -1,8 +1,6 @@
 <script>
-  import Input from './Input.svelte';
-  import Error from './Error.svelte';
-  import Result from './Result.svelte';
-  import Explanations from './Explanations.svelte';
+  import LeftPane from './LeftPane.svelte';
+  import RightPane from './RightPane.svelte';
 
   let file, error, results;
   export let actions;
@@ -38,40 +36,12 @@
     flex-direction: row;
     height: 100%;
   }
-  article {
-    flex-basis: 100%;
-    flex: 1;
-  }
-  .right {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden
-  }
-  .right img {
-    transform: translateZ(0);
-    flex-shrink: 0;
-    min-height: 100%
-  }
-  @media (max-width: 640px) {
-    .right {
-      display: none !important;
-    }
-  }
-  @media (min-width: 1440px) {
-    .right img {
-      min-width: 100%;
-    }
-  }
 </style>
 
 <div class="container">
-  <article class="left">
-    <h1>Orbs Notary</h1>
-  </article>
-  <article class="right">
-    <img src="images/planet-min.png" alt="planet"/>
-  </article>
+  <LeftPane />
+  <RightPane />
+  
   <!-- <h1>Orbs Notary</h1>
   <Explanations />
   <Input
