@@ -1,3 +1,9 @@
+<script>
+  import { createEventDispatcher } from 'svelte';
+  const dispatch = createEventDispatcher();
+  export let disabled;
+</script>
+
 <style>
   .actions {
     display: flex;
@@ -14,6 +20,10 @@
     background-color: var(--color-white);
     margin: 0.7rem;
   }
+  button[disabled] {
+    opacity: .7;
+    cursor: default;
+  }
   .outline {
     border: 2px solid var(--color-blue);
   }
@@ -25,6 +35,6 @@
 </style>
 
 <div class="actions">
-  <button class="outline">Register</button>
-  <button class="fill">Verify</button>
+  <button disabled={disabled} class="outline" on:click={() => dispatch('register')}>Register</button>
+  <button disabled={disabled} class="fill"  on:click={() => dispatch('verify')}>Verify</button>
 </div>

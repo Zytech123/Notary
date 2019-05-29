@@ -2,6 +2,40 @@
   import DropZone from './DropZone.svelte';
   import Actions from './Actions.svelte';
   import Footer from './Footer.svelte';
+
+  export let actions;
+
+  let selectedFile;
+  let error;
+  let results;
+
+  const fileSelectHandler = (file) => {
+    console.log(file);
+    selectedFile = file;
+  };
+
+  const clearError = () => {
+    error = undefined;
+  };
+
+  const registerHandler = async () => {
+    clearError();
+    try {
+      const res = await actions.register(selectedFile);
+      results = res;
+      console.log(res);
+    } catch (err) {
+      error = { message: err };
+      console.error(err);
+    }
+  };
+
+  const verifyHandler = async () => {
+    clearError();
+    const res = await actions.verify(selectedFile);
+    results = res;
+    console.log(res);
+  };
 </script>
 
 <style>
@@ -45,8 +79,11 @@
       Orbs Notary serves two simple purposes:<br />
       register and verify documents.
     </p>
-    <DropZone />
-    <Actions />
+    <DropZone on:file={(ev) => fileSelectHandler(ev.detail)} />
+    <Actions 
+      disabled={!selectedFile} 
+      on:register={registerHandler} 
+      on:verify={verifyHandler}/>
   </div>
   <Footer />
 </article>

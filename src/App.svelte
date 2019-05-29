@@ -39,7 +39,7 @@
 </style>
 
 <div class="container">
-  <LeftPane />
+  <LeftPane actions={actions}/>
   <RightPane />
   
   <!-- <h1>Orbs Notary</h1>
