@@ -5,6 +5,7 @@
   export let onFileSelect;
 
   let selectedFile;
+  let isDragOver = false;
   let fileDialog;
   let isFileValid = true;
   const MB_10 = 10485760;
@@ -53,14 +54,22 @@
   #file-chooser {
     display: none;
   }
+  .isDragOver {
+    opacity: 0.7;
+    border: 1px dashed black;
+  }
 </style>
 
-<main>
-  <div class="icons">
-    <img src="images/pdf-icon.svg" alt="pdf icon" />
-    <img src="images/doc-icon.svg" alt="doc icon" />
-    <img src="images/jpg-icon.svg" alt="jpg icon" />
-  </div>
+<main
+  class:isDragOver
+  on:dragover|preventDefault|stopPropagation={() => (isDragOver = true)}
+  on:dragenter|preventDefault|stopPropagation={() => (isDragOver = true)}
+  on:dragleave|preventDefault|stopPropagation={() => (isDragOver = false)}
+  on:dragend|preventDefault|stopPropagation={() => (isDragOver = false)}
+  on:drop|preventDefault|stopPropagation={ev => ((isDragOver = true), fileHandler(ev.dataTransfer.files[0]))}>
+  <img src="images/pdf-icon.svg" alt="pdf icon" />
+  <img src="images/doc-icon.svg" alt="doc icon" />
+  <img src="images/jpg-icon.svg" alt="jpg icon" />
   <h4>Drag & Drop</h4>
   <p class="secondary">to upload a file</p>
   <button on:click={() => fileDialog.click()}>Or, Select File</button>
